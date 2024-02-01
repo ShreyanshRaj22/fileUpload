@@ -44,12 +44,15 @@ const FileList = () => {
     };
 
     return (
-        <div>
-            <h2>File List</h2>
-            <ul>
+        <div className="file-list-container">
+            <h2>Uploaded Reports</h2>
+            <ul className="file-list">
                 {files.map((file) => (
-                    <li key={file.id}>
-                        {file.fileName} <button onClick={() => handleDownload(file)}>Download</button>
+                    <li key={file.id} className="file-item">
+                        <div>
+                            <span className="file-name">{file.fileName}</span>
+                        </div>
+                        <button className="download-btn" onClick={() => handleDownload(file)}>Download</button>
                     </li>
                 ))}
             </ul>

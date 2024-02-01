@@ -5,6 +5,7 @@ import { storage, firestore } from './firebase';
 
 const FileUpload = () => {
     const [file, setFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
 
     const handleChange = (e) => {
         if (e.target.files[0]) {
@@ -14,6 +15,7 @@ const FileUpload = () => {
 
     const handleUpload = async () => {
         if (!file) return;
+        setUploading(true);
         const storageRef = ref(storage, `pdfs/${file.name}`);
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
@@ -24,12 +26,16 @@ const FileUpload = () => {
         });
 
         setFile(null);
+        setUploading(false);
     };
 
     return (
-        <div>
+        <div className="file-upload-container">
+            <h2>Upload Your Medical Report</h2>
             <input type="file" onChange={handleChange} />
-            <button onClick={handleUpload}>Upload</button>
+            <button onClick={handleUpload} disabled={!file || uploading}>
+                {uploading ? 'Uploading...' : 'Upload'}
+            </button>
         </div>
     );
 };
